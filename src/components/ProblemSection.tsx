@@ -1,3 +1,5 @@
+import logoMark from "@/assets/logo-mark.png";
+
 const problems = [
   { title: "Months of Manual Work", desc: "Teams waste 6–12 months filling spreadsheets, chasing evidence, and writing policies from scratch with no clear finish line." },
   { title: "Expensive Consultants", desc: "Traditional consulting costs $40K–$150K+ with no guarantee of passing. You pay regardless of the outcome." },
@@ -54,8 +56,8 @@ export default function ProblemSection() {
             <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
 
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-11 h-11 bg-gradient-to-br from-accent/20 to-primary/20 border border-accent/30 rounded-[11px] flex items-center justify-center">
-                <svg width="20" height="20" fill="none" stroke="hsl(187,94%,43%)" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <div className="w-11 h-11 bg-gradient-to-br from-accent/20 to-primary/20 border border-accent/30 rounded-[11px] flex items-center justify-center p-1.5">
+                <img src={logoMark} alt="Cloud Astra" className="w-full h-full object-contain" />
               </div>
               <h3 className="font-display text-[1.05rem] font-extrabold">Cloud Astra Solves All of This</h3>
             </div>
