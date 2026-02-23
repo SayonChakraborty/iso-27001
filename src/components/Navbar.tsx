@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import logoImg from "@/assets/cloudastra-logo.png";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -17,18 +18,7 @@ export default function Navbar() {
       }`}
     >
       <a href="#" className="flex items-center gap-3 no-underline text-foreground font-display font-extrabold text-[1.3rem] tracking-tight">
-        <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
-          <circle cx="19" cy="19" r="17" stroke="url(#lg)" strokeWidth="2" />
-          <path d="M13 19a6 6 0 0112 0" stroke="url(#lg)" strokeWidth="2" strokeLinecap="round" />
-          <circle cx="19" cy="14" r="2" fill="url(#lg)" />
-          <defs>
-            <linearGradient id="lg" x1="0" y1="0" x2="38" y2="38">
-              <stop stopColor="hsl(217,92%,60%)" />
-              <stop offset="1" stopColor="hsl(187,94%,43%)" />
-            </linearGradient>
-          </defs>
-        </svg>
-        Cloud<span className="gradient-text"> Astra</span>
+        <img src={logoImg} alt="Cloudastra Technologies" className="h-[40px] w-auto" />
       </a>
       <div className="flex items-center gap-6">
         <a href="#how" className="text-foreground/60 text-sm no-underline font-medium hover:text-foreground transition-colors hidden sm:block">How It Works</a>
