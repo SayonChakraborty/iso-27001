@@ -5,6 +5,15 @@ export default function ContactForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Google Tag Manager Event
+    (window as any).dataLayer = (window as any).dataLayer || [];
+    (window as any).dataLayer.push({
+      event: "lead_form_submit",
+      service: "ISO 27001 Certification",
+      campaign: "cloudastra_iso_landing",
+    });
+
     setSubmitted(true);
     setTimeout(() => setSubmitted(false), 4000);
   };
