@@ -1,4 +1,22 @@
-const logos = ["NEXUS", "HEALTHPAY", "BRIDGE", "STACKFORGE", "VAULTLOGIC", "CLOUDREX", "TRAKR.AI", "MERIDIAN"];
+import groww from "@/assets/logos/groww.png";
+import mastercard from "@/assets/logos/mastercard.png";
+import leadcenter from "@/assets/logos/leadcenter.png";
+import altcase from "@/assets/logos/altcase.png";
+import mhp from "@/assets/logos/mhp.png";
+import tompkins from "@/assets/logos/tompkins.png";
+import politech from "@/assets/logos/politech.png";
+import freecast from "@/assets/logos/freecast.png";
+
+const logos = [
+  { src: groww, alt: "Groww" },
+  { src: mastercard, alt: "MasterCard" },
+  { src: leadcenter, alt: "LeadCenter.AI" },
+  { src: altcase, alt: "Altcase" },
+  { src: mhp, alt: "MHP" },
+  { src: tompkins, alt: "Tompkins Robotics" },
+  { src: politech, alt: "Politech" },
+  { src: freecast, alt: "FreeCast" },
+];
 
 export default function LogoBar() {
   return (
@@ -7,11 +25,14 @@ export default function LogoBar() {
         Trusted by 500+ US Companies Across Every Industry
       </p>
       <div className="relative w-full overflow-hidden mask-gradient">
-        <div className="flex gap-16 animate-marquee w-max">
-          {[...logos, ...logos, ...logos].map((n, i) => (
-            <span key={`${n}-${i}`} className="font-display text-[0.95rem] font-extrabold tracking-[2px] text-foreground/90 whitespace-nowrap">
-              {n}
-            </span>
+        <div className="flex items-center gap-16 animate-marquee w-max">
+          {[...logos, ...logos, ...logos].map((logo, i) => (
+            <img
+              key={`${logo.alt}-${i}`}
+              src={logo.src}
+              alt={logo.alt}
+              className="h-8 w-auto object-contain brightness-0 invert opacity-70 hover:opacity-100 transition-opacity"
+            />
           ))}
         </div>
       </div>
