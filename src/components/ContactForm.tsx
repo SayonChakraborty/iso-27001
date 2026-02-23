@@ -1,19 +1,57 @@
 import { useState } from "react";
 
+/** 🔹 Paste your CRM webhook URL here */
+const WEBHOOK_URL = "PASTE_YOUR_WEBHOOK_URL_HERE";
+const SERVICE_NAME = "ISO";
+const CAMPAIGN_NAME = "ISO 27001";
+
 export default function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    const payload = {
+      first_name: formData.get("first_name") as string,
+      last_name: formData.get("last_name") as string,
+      email: formData.get("email") as string,
+      phone: formData.get("phone") as string,
+      company: formData.get("company") as string,
+      company_size: formData.get("company_size") as string,
+      industry: formData.get("industry") as string,
+      timeline: formData.get("timeline") as string,
+      service: SERVICE_NAME,
+      campaign_name: CAMPAIGN_NAME,
+    };
 
     // Google Tag Manager Event
     (window as any).dataLayer = (window as any).dataLayer || [];
     (window as any).dataLayer.push({
       event: "lead_form_submit",
-      service: "ISO 27001 Certification",
-      campaign: "cloudastra_iso_landing",
+      service: SERVICE_NAME,
+      campaign: CAMPAIGN_NAME,
     });
 
+    // Send to CRM webhook
+    if (WEBHOOK_URL && WEBHOOK_URL !== "PASTE_YOUR_WEBHOOK_URL_HERE") {
+      try {
+        await fetch(WEBHOOK_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+          mode: "no-cors",
+        });
+      } catch (err) {
+        console.error("Webhook error:", err);
+      }
+    }
+
+    setLoading(false);
     setSubmitted(true);
     setTimeout(() => setSubmitted(false), 4000);
   };
@@ -41,14 +79,14 @@ export default function ContactForm() {
                 <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                 First Name
               </label>
-              <input className="w-full py-2.5 px-3 bg-foreground/5 border border-foreground/10 rounded-[9px] text-foreground text-sm focus:outline-none focus:border-blue-el focus:bg-primary/10 focus:shadow-[0_0_0_3px_hsla(217,92%,60%,0.12)] transition-all placeholder:text-foreground/20" placeholder="John" />
+              <input name="first_name" className="w-full py-2.5 px-3 bg-foreground/5 border border-foreground/10 rounded-[9px] text-foreground text-sm focus:outline-none focus:border-blue-el focus:bg-primary/10 focus:shadow-[0_0_0_3px_hsla(217,92%,60%,0.12)] transition-all placeholder:text-foreground/20" placeholder="John" />
             </div>
             <div>
               <label className="flex items-center gap-1.5 text-[0.7rem] font-bold text-foreground/45 mb-1 tracking-wide uppercase">
                 <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                 Last Name
               </label>
-              <input className="w-full py-2.5 px-3 bg-foreground/5 border border-foreground/10 rounded-[9px] text-foreground text-sm focus:outline-none focus:border-blue-el focus:bg-primary/10 focus:shadow-[0_0_0_3px_hsla(217,92%,60%,0.12)] transition-all placeholder:text-foreground/20" placeholder="Smith" />
+              <input name="last_name" className="w-full py-2.5 px-3 bg-foreground/5 border border-foreground/10 rounded-[9px] text-foreground text-sm focus:outline-none focus:border-blue-el focus:bg-primary/10 focus:shadow-[0_0_0_3px_hsla(217,92%,60%,0.12)] transition-all placeholder:text-foreground/20" placeholder="Smith" />
             </div>
           </div>
           <div>
@@ -56,21 +94,21 @@ export default function ContactForm() {
               <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>
               Work Email
             </label>
-            <input type="email" className="w-full py-2.5 px-3 bg-foreground/5 border border-foreground/10 rounded-[9px] text-foreground text-sm focus:outline-none focus:border-blue-el focus:bg-primary/10 focus:shadow-[0_0_0_3px_hsla(217,92%,60%,0.12)] transition-all placeholder:text-foreground/20" placeholder="john@company.com" required />
+            <input name="email" type="email" className="w-full py-2.5 px-3 bg-foreground/5 border border-foreground/10 rounded-[9px] text-foreground text-sm focus:outline-none focus:border-blue-el focus:bg-primary/10 focus:shadow-[0_0_0_3px_hsla(217,92%,60%,0.12)] transition-all placeholder:text-foreground/20" placeholder="john@company.com" required />
           </div>
           <div>
             <label className="flex items-center gap-1.5 text-[0.7rem] font-bold text-foreground/45 mb-1 tracking-wide uppercase">
               <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.09 5.18 2 2 0 015.11 3h3a2 2 0 012 1.72c.13.81.36 1.6.68 2.34a2 2 0 01-.45 2.11L8.09 11.41a16 16 0 006.5 6.5l2.24-2.24a2 2 0 012.11-.45c.74.32 1.53.55 2.34.68a2 2 0 011.72 2.02z"/></svg>
               Phone Number
             </label>
-            <input className="w-full py-2.5 px-3 bg-foreground/5 border border-foreground/10 rounded-[9px] text-foreground text-sm focus:outline-none focus:border-blue-el focus:bg-primary/10 focus:shadow-[0_0_0_3px_hsla(217,92%,60%,0.12)] transition-all placeholder:text-foreground/20" placeholder="+1 (555) 000-0000" />
+            <input name="phone" className="w-full py-2.5 px-3 bg-foreground/5 border border-foreground/10 rounded-[9px] text-foreground text-sm focus:outline-none focus:border-blue-el focus:bg-primary/10 focus:shadow-[0_0_0_3px_hsla(217,92%,60%,0.12)] transition-all placeholder:text-foreground/20" placeholder="+1 (555) 000-0000" />
           </div>
           <div>
             <label className="flex items-center gap-1.5 text-[0.7rem] font-bold text-foreground/45 mb-1 tracking-wide uppercase">
               <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 7V5a4 4 0 00-8 0v2"/></svg>
               Company Name
             </label>
-            <input className="w-full py-2.5 px-3 bg-foreground/5 border border-foreground/10 rounded-[9px] text-foreground text-sm focus:outline-none focus:border-blue-el focus:bg-primary/10 focus:shadow-[0_0_0_3px_hsla(217,92%,60%,0.12)] transition-all placeholder:text-foreground/20" placeholder="Your Company Inc." />
+            <input name="company" className="w-full py-2.5 px-3 bg-foreground/5 border border-foreground/10 rounded-[9px] text-foreground text-sm focus:outline-none focus:border-blue-el focus:bg-primary/10 focus:shadow-[0_0_0_3px_hsla(217,92%,60%,0.12)] transition-all placeholder:text-foreground/20" placeholder="Your Company Inc." />
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
@@ -78,7 +116,7 @@ export default function ContactForm() {
                 <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
                 Company Size
               </label>
-              <select className="w-full py-2.5 px-3 bg-foreground/5 border border-foreground/10 rounded-[9px] text-foreground text-sm focus:outline-none focus:border-blue-el focus:bg-primary/10 transition-all appearance-none">
+              <select name="company_size" className="w-full py-2.5 px-3 bg-foreground/5 border border-foreground/10 rounded-[9px] text-foreground text-sm focus:outline-none focus:border-blue-el focus:bg-primary/10 transition-all appearance-none">
                 <option>Select size</option>
                 <option>1–50 employees</option>
                 <option>51–200 employees</option>
@@ -92,7 +130,7 @@ export default function ContactForm() {
                 <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 7V5a4 4 0 00-8 0v2"/></svg>
                 Industry
               </label>
-              <select className="w-full py-2.5 px-3 bg-foreground/5 border border-foreground/10 rounded-[9px] text-foreground text-sm focus:outline-none focus:border-blue-el focus:bg-primary/10 transition-all appearance-none">
+              <select name="industry" className="w-full py-2.5 px-3 bg-foreground/5 border border-foreground/10 rounded-[9px] text-foreground text-sm focus:outline-none focus:border-blue-el focus:bg-primary/10 transition-all appearance-none">
                 <option>Select industry</option>
                 <option>SaaS / Technology</option>
                 <option>Healthcare / Healthtech</option>
@@ -110,7 +148,7 @@ export default function ContactForm() {
               <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
               Certification Timeline
             </label>
-            <select className="w-full py-2.5 px-3 bg-foreground/5 border border-foreground/10 rounded-[9px] text-foreground text-sm focus:outline-none focus:border-blue-el focus:bg-primary/10 transition-all appearance-none">
+            <select name="timeline" className="w-full py-2.5 px-3 bg-foreground/5 border border-foreground/10 rounded-[9px] text-foreground text-sm focus:outline-none focus:border-blue-el focus:bg-primary/10 transition-all appearance-none">
               <option>When do you need to be certified?</option>
               <option>ASAP — Within 3 months</option>
               <option>3–6 months</option>
@@ -118,9 +156,9 @@ export default function ContactForm() {
               <option>Just exploring options</option>
             </select>
           </div>
-          <button type="submit" className="w-full py-4 mt-2 gradient-btn border-none rounded-[10px] text-foreground font-display font-extrabold text-[0.9rem] tracking-wide cursor-pointer shadow-[0_8px_30px_hsla(217,80%,53%,0.45)] hover:-translate-y-[3px] hover:shadow-[0_14px_40px_hsla(217,80%,53%,0.6)] transition-all flex items-center justify-center gap-2.5">
+          <button type="submit" disabled={loading} className="w-full py-4 mt-2 gradient-btn border-none rounded-[10px] text-foreground font-display font-extrabold text-[0.9rem] tracking-wide cursor-pointer shadow-[0_8px_30px_hsla(217,80%,53%,0.45)] hover:-translate-y-[3px] hover:shadow-[0_14px_40px_hsla(217,80%,53%,0.6)] transition-all flex items-center justify-center gap-2.5 disabled:opacity-70">
             <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M5.5 2.134L8 0l2.5 2.134L13 2l.732 2.866L16 6.5l-1.134 2.5L16 11.5l-2.268 1.634L13 16l-2.5-1.134L8 16l-2.5-1.134L3 16l-.732-2.866L0 11.5l1.134-2.5L0 6.5l2.268-1.634L3 2l2.5.134z"/></svg>
-            Get My Free Consultation
+            {loading ? "Submitting..." : "Get My Free Consultation"}
           </button>
         </form>
 
