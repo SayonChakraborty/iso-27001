@@ -16,14 +16,22 @@ export default function HeroSection() {
         </div>
 
         <h1 className="font-display text-[clamp(2.4rem,4.2vw,3.6rem)] font-black leading-[1.08] tracking-[-2px] mb-5 animate-fade-up" style={{ animationDelay: "0.15s" }}>
-          Achieve ISO 27001<br />
-          <span className="gradient-text">10× Faster.</span><br />
-          With Certainty.
+          Get ISO 27001 compliant<br />
+          in <span className="gradient-text">&lt; 6 weeks</span>
         </h1>
 
         <p className="text-[1.05rem] text-foreground/60 max-w-[520px] leading-[1.8] mb-9 animate-fade-up" style={{ animationDelay: "0.3s" }}>
-          Stop drowning in spreadsheets. Cloud Astra automates evidence collection, maps your controls, and guides your team from gap assessment to certification in weeks — not months.
+          Streamline your ISO security certification with Cloud Astra's smartGRC platform and expert support.
         </p>
+
+        <div className="flex gap-6 flex-wrap mb-9 animate-fade-up" style={{ animationDelay: "0.35s" }}>
+          {["Audit-ready in less than 6 weeks", "Manual effort reduced by 70%", "Guaranteed error-free reporting"].map((item, i) => (
+            <div key={i} className="flex items-center gap-2 text-[0.88rem] text-foreground/80">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--accent))" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+              {item}
+            </div>
+          ))}
+        </div>
 
         <div className="flex gap-3.5 flex-wrap animate-fade-up" style={{ animationDelay: "0.45s" }}>
           <button className="gradient-btn text-foreground border-none py-3.5 px-7 rounded-lg font-display font-bold text-[0.9rem] cursor-pointer tracking-wide shadow-[0_8px_32px_hsla(217,80%,53%,0.4)] hover:-translate-y-[3px] hover:shadow-[0_14px_40px_hsla(217,80%,53%,0.55)] transition-all flex items-center gap-2">
