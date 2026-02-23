@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="flex flex-wrap gap-10 justify-between items-start">
         {/* Logo & Links */}
         <div className="flex flex-col gap-4">
-          <img src={logoImg} alt="Cloudastra Technologies" className="h-[60px] w-auto" />
+          <img src={logoImg} alt="Cloudastra Technologies" className="h-[80px] w-auto" />
           <div className="flex gap-5">
             {["Privacy", "Terms", "Security", "Contact"].map((l) => (
               <a key={l} href="#" className="text-foreground/30 no-underline text-[0.78rem] hover:text-foreground/70 transition-colors">{l}</a>

@@ -18,7 +18,7 @@ export default function Navbar() {
       }`}
     >
       <a href="#" className="flex items-center gap-3 no-underline text-foreground font-display font-extrabold text-[1.3rem] tracking-tight">
-        <img src={logoImg} alt="Cloudastra Technologies" className="h-[40px] w-auto" />
+        <img src={logoImg} alt="Cloudastra Technologies" className="h-[56px] w-auto" />
       </a>
       <div className="flex items-center gap-6">
         <a href="#how" className="text-foreground/60 text-sm no-underline font-medium hover:text-foreground transition-colors hidden sm:block">How It Works</a>
