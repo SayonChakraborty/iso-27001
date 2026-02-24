@@ -25,7 +25,7 @@ export default function Index() {
       <StepsSection />
       <FeaturesSection />
       <TestimonialsSection />
-      <FounderSection />
+      
       <WhyUsSection />
       <FAQSection />
       <CTASection />
